@@ -1,0 +1,147 @@
+import cv2 as cv
+import numpy as np
+
+img1 = cv.imread('1.jpg')
+img2_ori = cv.imread('2.jpg')
+img2 = cv.resize(img2_ori,(1640,590))
+img3 = cv.imread('3.jpg')
+# cv.imshow('test',img1)
+# cv.waitKey(0)
+# cv.imshow('test',img2)
+# cv.waitKey(0)
+# cv.imshow('test',img3)
+# cv.waitKey(0)
+gray1 = cv.cvtColor(img1,cv.COLOR_BGR2GRAY)
+gray2 = cv.cvtColor(img2,cv.COLOR_BGR2GRAY)
+gray3 = cv.cvtColor(img3,cv.COLOR_BGR2GRAY)
+gray_1 = cv.convertScaleAbs(gray1)
+gray_2 = cv.convertScaleAbs(gray2)
+gray_3 = cv.convertScaleAbs(gray3)
+cv.imwrite('gray_1.jpg',gray_1)
+cv.imwrite('gray_2.jpg',gray_2)
+cv.imwrite('gray_3.jpg',gray_3)
+
+filter_1 = cv.blur(gray_1, (5, 5))
+filter_2 = cv.blur(gray_2, (5, 5))
+filter_3 = cv.blur(gray_3, (5, 5))
+cv.imwrite('filter_1.jpg',filter_1)
+cv.imwrite('filter_2.jpg',filter_2)
+cv.imwrite('filter_3.jpg',filter_3)
+
+canny1 = cv.Canny(filter_1,120,150)
+canny2 = cv.Canny(filter_2,120,150)
+canny3 = cv.Canny(filter_3,120,150)
+cv.imwrite('canny1.jpg',canny1)
+cv.imwrite('canny2.jpg',canny2)
+cv.imwrite('canny3.jpg',canny3)
+# cv.imwrite('canny1.jpg')
+# sobelX_1 = cv.Sobel(img1,cv.CV_64F,1,0)
+# sobelY_1 = cv.Sobel(img1,cv.CV_64F,0,1)
+# sobelX_2 = cv.Sobel(img2,cv.CV_64F,1,0)
+# sobelY_2 = cv.Sobel(img2,cv.CV_64F,0,1)
+# sobelX_3 = cv.Sobel(img3,cv.CV_64F,1,0)
+# sobelY_3 = cv.Sobel(img3,cv.CV_64F,0,1)
+
+# sobelX_1 = np.uint8(np.absolute(sobelX_1))
+# sobelY_1 = np.uint8(np.absolute(sobelY_1))
+# sobelX_2 = np.uint8(np.absolute(sobelX_2))
+# sobelY_2 = np.uint8(np.absolute(sobelY_2))
+# sobelX_3 = np.uint8(np.absolute(sobelX_3))
+# sobelY_3 = np.uint8(np.absolute(sobelY_3))
+
+# sobelCombined_1 = cv.bitwise_or(sobelX_1,sobelY_1)
+# sobelCombined_2 = cv.bitwise_or(sobelX_2,sobelY_2)
+# sobelCombined_3 = cv.bitwise_or(sobelX_3,sobelY_3)
+# cv.imwrite('edge_1.jpg',sobelCombined_1)
+# cv.imwrite('edge_2.jpg',sobelCombined_2)
+# cv.imwrite('edge_3.jpg',sobelCombined_3)
+
+# cv.imshow('sibelX_1', sobelX_1)
+# cv.waitKey(0)
+# cv.imshow('sibelY_1', sobelY_1)
+# cv.waitKey(0)
+# cv.imshow('sibelXY_1',sobelCombined_1)
+# cv.waitKey(0)
+
+# cv.imshow('sibelX_2', sobelX_2)
+# cv.waitKey(0)
+# cv.imshow('sibelY_2', sobelY_2)
+# cv.waitKey(0)
+# cv.imshow('sibelXY_2',sobelCombined_2)
+# cv.waitKey(0)
+
+# cv.imshow('sibelX_3', sobelX_3)
+# cv.waitKey(0)
+# cv.imshow('sibelY_3', sobelY_3)
+# cv.waitKey(0)
+# cv.imshow('sibelXY_3',sobelCombined_3)
+# cv.waitKey(0)
+ret, bin_1 = cv.threshold(canny1,127,255,cv.THRESH_BINARY)
+ret, bin_2 = cv.threshold(canny2,127,255,cv.THRESH_BINARY)
+ret, bin_3 = cv.threshold(canny3,127,255,cv.THRESH_BINARY)
+cv.imwrite('bin_1.jpg',bin_1)
+cv.imwrite('bin_2.jpg',bin_2)
+cv.imwrite('bin_3.jpg',bin_3)
+mor11 = cv.morphologyEx(bin_1,cv.MORPH_OPEN,(10,10))
+mor22 = cv.morphologyEx(bin_2,cv.MORPH_OPEN,(10,10))
+mor33 = cv.morphologyEx(bin_3,cv.MORPH_OPEN,(10,10))
+mor1 = cv.morphologyEx(mor11,cv.MORPH_OPEN,(10,10))
+mor2 = cv.morphologyEx(mor22,cv.MORPH_OPEN,(10,10))
+mor3 = cv.morphologyEx(mor33,cv.MORPH_OPEN,(10,10))
+cv.imwrite('mor1.jpg',mor1)
+cv.imwrite('mor2.jpg',mor2)
+cv.imwrite('mor3.jpg',mor3)
+# ret, bin_1test = cv.threshold(sobelCombined_1,50,50,cv.THRESH_BINARY)
+# ret, bin_2 = cv.threshold(sobelCombined_2,127,255,cv.THRESH_BINARY)
+# ret, bin_3 = cv.threshold(sobelCombined_3,127,255,cv.THRESH_BINARY)
+# cv.imwrite('bin_1.jpg',bin_1)
+# cv.imwrite('bin_1test.jpg',bin_1test)
+# cv.imwrite('bin_2.jpg',bin_2)
+# cv.imwrite('bin_3.jpg',bin_3)
+
+
+
+# morphology_1open = cv.morphologyEx(bin_1,cv.MORPH_OPEN,(10,10))
+# morphology_1open_close = cv.morphologyEx(morphology_1open,cv.MORPH_CLOSE,(10,10))
+
+# cv.imwrite('1open_then_close.jpg',morphology_1open_close)
+
+
+# morphology_2open = cv.morphologyEx(bin_2,cv.MORPH_OPEN,(10,10))
+# morphology_2open_close = cv.morphologyEx(morphology_2open,cv.MORPH_CLOSE,(10,10))
+# cv.imwrite('2open_then_close.jpg',morphology_2open_close)
+
+# morphology_3open = cv.morphologyEx(bin_3,cv.MORPH_OPEN,(10,10))
+# morphology_3open_close = cv.morphologyEx(morphology_3open,cv.MORPH_CLOSE,(10,10))
+# cv.imwrite('3open_then_close.jpg',morphology_3open_close)
+
+
+# gray_morphology_1open = cv.cvtColor(morphology_1open, cv.COLOR_BGR2GRAY)
+# gray_morphology_1open= cv.convertScaleAbs(gray_morphology_1open)
+cimg1 = np.copy(img1)
+cimg2 = np.copy(img2)
+cimg3 = np.copy(img3)
+
+lines = cv.HoughLinesP(mor1,1,np.pi/180,45,minLineLength=50,maxLineGap=4)
+for line in lines:
+    x1, y1, x2, y2 = line[0]
+    cv.line(cimg1, (x1, y1), (x2, y2), (0, 255, 0), 2)
+cv.imshow('test',cimg1)
+cv.imwrite('cimg1.jpg',cimg1)
+cv.waitKey(0)
+
+lines = cv.HoughLinesP(mor2,1,np.pi/180,40,minLineLength=140,maxLineGap=190)
+for line in lines:
+    x1, y1, x2, y2 = line[0]
+    cv.line(cimg2, (x1, y1), (x2, y2), (0, 255, 0), 2)
+cv.imshow('test',cimg2)
+cv.imwrite('cimg2.jpg',cimg2)
+cv.waitKey(0)
+
+lines = cv.HoughLinesP(mor3,1,np.pi/180,40,minLineLength=140,maxLineGap=190)
+for line in lines:
+    x1, y1, x2, y2 = line[0]
+    cv.line(cimg3, (x1, y1), (x2, y2), (0, 255, 0), 2)
+cv.imshow('test',cimg3)
+cv.imwrite('cimg2.jpg',cimg2)
+cv.waitKey(0)
